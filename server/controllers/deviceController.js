@@ -10,6 +10,7 @@ class DeviceController {
             const { img } = req.files;
             let fileName = uuid.v4() + '.jpg' // додаємо унікальне ім'я
             img.mv(path.resolve(__dirname, '..', 'static', fileName)) // переміщуємо наші файли в папку "static"
+            const device = await Device.create({ name, price, brandId, typeId, img: fileName });
 
             if (info) {
                 info = JSON.parse(info);
@@ -21,8 +22,6 @@ class DeviceController {
                     })
                 );
             }
-
-            const device = await Device.create({ name, price, brandId, typeId, img: fileName });
 
             return res.json(device);
         } catch (error) {
